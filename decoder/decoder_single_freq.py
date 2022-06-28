@@ -1,3 +1,9 @@
+"""
+This script performs the training of the decoder model.
+JSON config file should be parsed as input (see example in the same directory), containing all the relevant info
+(i.e. dataset to be used, architecture of the decoder, etc.)
+"""
+
 from torch.utils.data import DataLoader
 import dataloader_decoder as dataloader
 from decoder_architectures_single_freq import *

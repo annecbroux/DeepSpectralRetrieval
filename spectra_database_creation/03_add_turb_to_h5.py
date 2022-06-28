@@ -1,3 +1,8 @@
+"""
+This codes adds the turbulent broadening to the spectra.
+In-place modification of the hdf5 files created by 02_merge_h5.py
+"""
+
 import numpy as np
 import pandas as pd
 import h5py
@@ -9,10 +14,6 @@ import scipy
 import matplotlib.pyplot as plt
 
 
-"""
-This codes adds the turbulent broadening to the spectra.
-In-place modification of the hdf5 files created by 02_merge_h5.py
-"""
 
 import argparse
 parser = argparse.ArgumentParser(description='add turbulence to merged h5')

@@ -1,3 +1,11 @@
+
+"""
+This script is the first part of the training set generation.
+It samples microphysical parameters according to predefined statistics and runs PAMTRA simulations on them.
+It can (should) be parsed with indices controlling how many batches of simulations are run (each batch -> one output file named with the index of the batch)
+See below for detail.
+"""
+
 import pyPamtra
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,10 +24,6 @@ import copy
 import os
 import json 
 
-"""
-This script is the first part of the training set generation.
-It samples microphysical parameters according to predefined statistics and runs PAMTRA simulations on them.
-"""
 
 OUTPUT_DATA_DIR = '/data/spectra_simulations/'
 # The following parameters are used to simulate spectra in batches
@@ -34,8 +38,8 @@ import argparse
 parser = argparse.ArgumentParser(description='launch pamtra simulations')
 # These indices control how many batches of simulations are run
 # Each batch of simulations -> one output file named with the index of the batch (i_batch) and containing N_SIM spectra (at X and W)
-parser.add_argument('index_start', type=int)
-parser.add_argument('index_end', type=int)
+parser.add_argument('index_start', type=int, default=0)
+parser.add_argument('index_end', type=int, default=1000)
 args = parser.parse_args()
 
 

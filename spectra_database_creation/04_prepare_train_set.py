@@ -1,12 +1,3 @@
-import numpy as np
-import pandas as pd
-import h5py
-import glob
-from tqdm import tqdm
-import yaml
-from turbulence_and_wind import shift_wind
-
-SIMULATIONS_DIR = '/data/acbr_spectra_dbcreation/'
 
 """
 This code does the final steps of the training set pre-processing:
@@ -16,6 +7,16 @@ This code does the final steps of the training set pre-processing:
 -> reduces size of spectra to 256 velocity bins
 -> add "min_spec" field to the dataset which contains the minium value of each spectrum
 """
+
+import numpy as np
+import pandas as pd
+import h5py
+import glob
+from tqdm import tqdm
+import yaml
+from turbulence_and_wind import shift_wind
+
+SIMULATIONS_DIR = '/data/acbr_spectra_dbcreation/'
 
 import argparse
 parser = argparse.ArgumentParser(description='prepare training set')

@@ -1,3 +1,7 @@
+"""
+This code (not super neat) merges the hdf5 files created by 01_convert_to_h5.py into a single file (can be very large)
+"""
+
 import numpy as np
 import pandas as pd
 import h5py
@@ -8,9 +12,6 @@ import random
 
 SIMULATIONS_DIR = '/data/acbr_spectra_dbcreation/'
 
-"""
-This code (not super neat) merges the hdf5 files created by 01_convert_to_h5.py into a single file (can be very large)
-"""
 
 import argparse
 parser = argparse.ArgumentParser(description='merge h5 datasets')
