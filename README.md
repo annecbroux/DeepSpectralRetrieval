@@ -27,3 +27,4 @@ numpy>=1.18
 matplotlib>=3.4
 tqdm
 ```
+Examples of data on which to run the code were not included (yet) because quite heavy, but can be shared upon request.
