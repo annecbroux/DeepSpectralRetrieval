@@ -1,0 +1,51 @@
+{
+    "directory": "/home/billault/ml_design/decoder/decoder_runs/",
+    
+    "input_array": "../input_simulations.h5",
+    "input_h5": "/data/acbr_spectra_dbcreation/simulations_all_wind_ts.h5",
+    "target_freq": "W",
+    "i_start_ds": 0,
+    "i_end_ds": 50000000,
+    "i_start_val_ds": 50000000,
+    "i_end_val_ds": 65000000,
+    "i_start_spec":0,
+    "i_end_spec":257,
+    
+    "normalize_input": 1,
+    "normalize_output": 1,
+    
+    "mean_normalization_json": "spectra_database/means_newParams_w_minspec_log.json",
+    "std_normalization_json": "spectra_database/stds_newParams_w_minspec_log.json",
+    "mean_normalization_npy": "spectra_database/medians_newParams_w_minspec_log.npy",
+    "std_normalization_npy": "spectra_database/iqrs_newParams_w_minspec_log.npy",
+    "shuffle_pre_train": 0,
+    
+    "use_subsampler":1,
+    "with_wind":1,
+    
+    "nb_epochs": 100,
+    "batch_size": 250,
+    "val_batch_size": 1000,
+    "learning_rate_ini": 1e-3,
+    
+    "model_name": "Decoder_256_wResblock_seq7_1",
+    "n_input_features":10,
+    "n_channels":30,
+    "n_hidden_layers":60,
+    "secondary_loss":"finer_peak",
+    "normalize_loss":0,
+    "device": "cuda",
+    
+    "scheduler": "step",
+    "lr_sched_step": 20,
+    "lr_sched_gamma": 0.2,
+    "stop_decreasing_after": 80,
+    
+    "checkpoint_name": "checkpoint.pth",
+    
+    "init": "xavier_normal",
+    
+    "ts_size_per_epoch":1500000,
+    "num_workers_loader": 32
+        
+}
