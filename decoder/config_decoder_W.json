@@ -1,0 +1,56 @@
+{
+    "directory" : "/ltenas8/users/anneclaire/retrieval_202306/decoder/decoder_runs_20230628_newSpectra_wAS_1/decoderW/",
+    "input_variables": ["M0", "M1", "M2", "mu", "a_ms", "b_ms", "a_as", "b_as", "broadX", "broadKa", "broadW", "windX", "windKa", "windW", "noiseX", "noiseKa", "noiseW"], 
+    "inds_input_vars_X": [0,1,2,3,4,5,6,7, 8,11,14],
+    "inds_input_vars_Ka": [0,1,2,3,4,5,6,7, 9,12,15],
+    "inds_input_vars_W": [0,1,2,3,4,5,6,7, 10,13,16],
+
+    "features_to_log": ["noiseKa", "M0", "M2"],
+    "features_to_log_plus_one": [""],
+
+    "syn_dataset_path": "/ltenas7/users/anneclaire/spectra_db_creation_202306/PSD/training_dataset/ts_newSpectra_rm_alias2.h5", 
+    "input_ds_path": "/home/billault/ml_design2/decoder/input_ds_newSpectra_rm_alias2_areasize.h5", 
+    "target_freq":"W",
+
+    "i_start_ts": 0,
+    "train_size": 1100000,
+    "i_start_val":1100000,
+    "val_size": 200000,
+    "i_start_spec": 0,
+    "i_end_spec": 257,
+    "nfft": 256,
+
+    "normalize_input": 1,
+    "normalize_output": 1,
+    "normalize_path": "/ltenas8/users/anneclaire/retrieval_202306/decoder/normalize_newSpectra_rm_alias2_areasize/", 
+
+    "shuffle_pre_train": 0,
+    "shuffle_dataloader": 0,
+
+    "use_subsampler":0,
+
+    "nb_epochs": 50,
+    "batch_size": 128,
+    "val_batch_size": 1000,
+    "learning_rate_ini": 1e-3,
+
+    "model_name": "Decoder_256_wResblock_seq7_1",
+    "n_input_features":11,
+    "n_channels":30,
+    "n_hidden_layers":75,
+    "secondary_loss":"weighted_peak",
+    "normalize_loss":0,
+
+    "scheduler": "step",
+    "lr_sched_step": 10,
+    "lr_sched_gamma": 0.2,
+    "stop_decreasing_after": 80,
+
+    "checkpoint_name": "checkpoint.pth",
+    "ts_size_per_epoch":1500000,
+    "num_workers_loader": 32,
+
+    "device": "cuda",
+    "init": "xavier_normal"
+
+ }
