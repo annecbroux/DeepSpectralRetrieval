@@ -241,7 +241,7 @@ class Encoder6_w_Resblock(nn.Module):
 
 
 
-class Encoder7_w_Resblock(nn.Module):
+class Encoder7_w_Resblock(nn.Module): # uses strided convolutions instead of pooling
         
     def __init__(self,nb_channels):
         super().__init__() #initial size (100,256)
@@ -250,20 +250,20 @@ class Encoder7_w_Resblock(nn.Module):
             nn.ReLU(),
             
             ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,252)
+            nn.ReLU(),
             nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,84)
-            #nn.AvgPool2d(kernel_size=(1,3), stride = (1,3)), # (100,84)
             nn.ReLU(),
             
             ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,84)
             nn.ReLU(),
             ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,84)
-            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,2)), # (100,42)
-            # nn.AvgPool2d(kernel_size=(1,2), stride = (1,2)), # (100,42)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride = (1,2)), # (100,42)
             nn.ReLU(),
 
             ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,42)
-            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,2)), # (100,21)
-            # nn.AvgPool2d(kernel_size=(1,2), stride = (1,2)), # (100,21)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride = (1,2)), # (100,21)
             nn.ReLU(),
 
             ResBlock(nb_channels,kernel_size=(1,5), padding_size=(0,2)), # (100,21)
@@ -280,38 +280,208 @@ class Encoder7_w_Resblock(nn.Module):
     def encode(self, x):
         x = self.encoder(x)
         return x
+    
 
 
-
-class Encoder2_w_Resblock(nn.Module):
+class Encoder8_w_Resblock(nn.Module): # latent vars go into channel dimension
         
     def __init__(self,nb_channels):
-        super().__init__()
+        super().__init__() #initial size (100,256)
         self.encoder = nn.Sequential(
-            nn.Conv2d(3,nb_channels,kernel_size=(3,4),padding=(1,2),padding_mode='replicate'), # 257
+            nn.Conv2d(3,nb_channels,kernel_size=(3,6),padding=(1,2),padding_mode='replicate'), # (100,255)
             nn.ReLU(),
             
-            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)),
-            nn.AvgPool2d(kernel_size=(1,3), stride = (1,3)), # 85
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,255)
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,85)
             nn.ReLU(),
             
-            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)),
-            nn.ReplicationPad2d((2,2,0,0)), # 89
-            nn.AvgPool2d(kernel_size=(1,3), stride = (1,3)), #
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,85)
             nn.ReLU(),
-            
-            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)),
+            nn.ReplicationPad2d((1,1,0,0)), # (100,87)
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,87)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,29)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3)), # (100,27)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,5), padding_size=(1,2)), # (100,27)
+            nn.ReLU(),
 
-            nn.ReplicatePad2d((0,0,2,2)), # 33
-            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2)), # 32
-            nn.AvgPool2d(kernel_size=(1,2), stride = (1,2)), # 16
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,9)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,3), padding_size=(1,1)), # (100,9)
             nn.ReLU(),
 
-            nn.Conv2d(nb_channels, 1, kernel_size=(1,1)) # 16
-
-            
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,3)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, 17, kernel_size=(1,3)) # (100,1)
         )
+    
+    def encode(self, x):
+        x = self.encoder(x)
+        return x
+
+
+
+
+
+class Encoder8_w_Resblock_1(nn.Module): # latent vars go into channel dimension
         
+    def __init__(self,nb_channels):
+        super().__init__() #initial size (100,256)
+        self.encoder = nn.Sequential(
+            nn.Conv2d(3,nb_channels,kernel_size=(3,6),padding=(1,2),padding_mode='replicate'), # (100,255)
+            nn.ReLU(),
+            
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,255)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,85)
+            nn.ReLU(),
+            
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,85)
+            nn.ReLU(),
+            nn.ReplicationPad2d((1,1,0,0)), # (100,87)
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,87)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,29)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3)), # (100,27)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,5), padding_size=(1,2)), # (100,27)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,9)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,3), padding_size=(1,1)), # (100,9)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,3)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, 17, kernel_size=(1,3)) # (100,1)
+        )
+    
+    def encode(self, x):
+        x = self.encoder(x)
+        return x
+
+
+
+
+class Encoder9_w_Resblock(nn.Module): # latent vars go into channel dimension
+        
+    def __init__(self,nb_channels):
+        super().__init__() #initial size (100,256)
+        self.encoder = nn.Sequential(
+            nn.Conv2d(3,nb_channels,kernel_size=(3,7),padding=(1,3),padding_mode='replicate'), # (100,256)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,256)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride = (1,2)), # (100,128)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,128)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,4), stride = (1,4)), # (100,32)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,32)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride = (1,2)), # (100,16)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,5), padding_size=(1,2)), # (100,16)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride=(1,2)), # (100,8)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride = (1,2)), # (100,4)
+            nn.ReLU(),
+            
+            nn.Conv2d(nb_channels, 17, kernel_size=(1,4)) # (100,1)
+        )
+    
+    def encode(self, x):
+        x = self.encoder(x)
+        return x
+    
+
+
+
+class Encoder10_w_Resblock(nn.Module): # latent vars go into channel dimension
+        
+    def __init__(self,nb_channels):
+        super().__init__() #initial size (100,256)
+        self.encoder = nn.Sequential(
+            nn.Conv2d(3,nb_channels,kernel_size=(3,7),padding=(1,3),padding_mode='replicate'), # (100,256)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,256)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride = (1,2)), # (100,128)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,128)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,4), stride = (1,4)), # (100,32)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,32)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride = (1,2)), # (100,16)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(1,5), padding_size=(0,2)), # (100,16)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride=(1,2)), # (100,8)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,2), stride = (1,2)), # (100,4)
+            nn.ReLU(),
+            
+            nn.Conv2d(nb_channels, 17, kernel_size=(1,4)) # (100,1)
+        )
+    
+    def encode(self, x):
+        x = self.encoder(x)
+        return x
+    
+
+
+
+class Encoder11_w_Resblock(nn.Module): # latent vars go into channel dimension
+        
+    def __init__(self,nb_channels):
+        super().__init__() #initial size (100,256)
+        self.encoder = nn.Sequential(
+            nn.Conv2d(3,nb_channels,kernel_size=(3,6),padding=(1,2),padding_mode='replicate'), # (100,255)
+            nn.ReLU(),
+            
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,255)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,85)
+            nn.ReLU(),
+            
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,85)
+            nn.ReLU(),
+            nn.ReplicationPad2d((1,1,0,0)), # (100,87)
+            ResBlock(nb_channels,kernel_size=(3,7), padding_size=(1,3)), # (100,87)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,29)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3)), # (100,27)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(1,5), padding_size=(0,2)), # (100,27)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,9)
+            nn.ReLU(),
+            ResBlock(nb_channels,kernel_size=(1,3), padding_size=(0,1)), # (100,9)
+            nn.ReLU(),
+
+            nn.Conv2d(nb_channels, nb_channels, kernel_size=(1,3), stride = (1,3)), # (100,3)
+            nn.ReLU(),
+            nn.Conv2d(nb_channels, 17, kernel_size=(1,3)) # (100,1)
+        )
+    
     def encode(self, x):
         x = self.encoder(x)
         return x
@@ -357,7 +527,7 @@ class Encoder3_w_Resblock(nn.Module):
         return x
 
 
-class Encoder3_w_Resblock_Separate(nn.Module):
+class Encoder3_w_Resblock_Separate(nn.Module): # this was not tested yet
         
     def __init__(self,nb_channels):
         super().__init__()
