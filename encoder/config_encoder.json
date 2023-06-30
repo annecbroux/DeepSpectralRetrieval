@@ -1,5 +1,5 @@
 {
-    "directory": "/ltenas8/users/anneclaire/retrieval_202306/encoder/encoder_runs_20230629_2/Encoder4_Resblock_1/",
+    "directory": "/ltenas8/users/anneclaire/retrieval_202306/encoder/encoder_runs_20230630_1/Encoder9_Resblock/",
     "checkpoint_name": "checkpoint.pth",
     
     "config_X_decoder": "/ltenas8/users/anneclaire/retrieval_202306/decoder/decoder_runs_20230628_newSpectra_wAS/decoderX/config.json",
@@ -24,7 +24,7 @@
     
     "device": "cuda",
     
-    "encoder_name": "Encoder4_w_Resblock_1",
+    "encoder_name": "Encoder9_w_Resblock",
     "constrain_activation": "None",
     "constrain_latent":0,
       
@@ -38,13 +38,13 @@
     "eps_optimizer": 1e-7,
     
     "use_scheduler": 1,
-    "scheduler_step": 20,
+    "scheduler_step": 12,
     "scheduler_gamma": 0.5,
-    "n_epochs": 6,
+    "n_epochs": 50,
     
     "loss_method": "mse",
     "sec_loss_method": "-",
-    "epoch_start_secloss":20,
+    "epoch_start_secloss":1,
 
     
     "init": "xavier_normal"
