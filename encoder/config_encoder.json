@@ -1,32 +1,33 @@
 {
-    "directory": "encoder_runs/Encoder1_Resblock_normwlog_logd_Wseq7_1_Xseq5_1/",
+    "directory": "/ltenas8/users/anneclaire/retrieval_202306/encoder/encoder_runs_20230629_2/Encoder4_Resblock_1/",
     "checkpoint_name": "checkpoint.pth",
     
-    "config_W_decoder": "/home/billault/ml_design/decoder/decoder_runs/simulations_singlefreqW_wResblock_seq7_1/config.json",
-    "config_X_decoder": "/home/billault/ml_design/decoder/decoder_runs/simulations_singlefreqX_wResblock_seq5_1/config.json",
-   
-    "use_Ze": 0,
-    "config_Ze_decoder": "-",
-   
-    "data_file":  "datasets/20210122_27_X_W_av_clean_corrZe",
-    "rgate_start": 5,
-    "rgate_end": 105,
+    "config_X_decoder": "/ltenas8/users/anneclaire/retrieval_202306/decoder/decoder_runs_20230628_newSpectra_wAS/decoderX/config.json",
+    "config_Ka_decoder": "/ltenas8/users/anneclaire/retrieval_202306/decoder/decoder_runs_20230628_newSpectra_wAS/decoderKa/config.json",
+    "config_W_decoder": "/ltenas8/users/anneclaire/retrieval_202306/decoder/decoder_runs_20230628_newSpectra_wAS/decoderW/config.json",
     
-    "num_workers_dataloader": 8,
-    "batch_size": 15,
-    "batch_shape": 25,
-    "augmented_dataset": 1,
-    "step_for_data_augmentation":10,
+    "inds_latent_vars_X": [0,1,2,3,4,5,6,7, 8,11,14],
+    "inds_latent_vars_Ka": [0,1,2,3,4,5,6,7, 9,12,15],
+    "inds_latent_vars_W": [0,1,2,3,4,5,6,7, 10,13,16],
+
+    "use_Ze": 0,
+    "config_Ze_decoder": " ",
+    
+    "data_file":  "/home/billault/ml_design2/datasets/ds_selected_events_new_noise.h5",
+    "rgate_start": 0,
+    "rgate_end": 200,
+    
+    "num_workers_dataloader": 32,
+    "batch_size": 50,
+    "batch_shape": 50,
+    "step_for_data_augmentation":25,
     
     "device": "cuda",
-    "force_min_noise_from_latent":0,
-    "force_min_noise":0,
-
-    "encoder_name": "Encoder1_w_Resblock",
+    
+    "encoder_name": "Encoder4_w_Resblock_1",
     "constrain_activation": "None",
     "constrain_latent":0,
-    "log_dm":1,
-    
+      
     "nb_channels_enc": 30,
     
     "use_pretrained_model": 0,
@@ -34,18 +35,17 @@
     "pretrained_model_checkpoint": "-",
     
     "lr_optimizer_initial": 1e-3,
-    "eps_optimizer": 1e-6,
+    "eps_optimizer": 1e-7,
     
     "use_scheduler": 1,
-    "scheduler_step": 90,
+    "scheduler_step": 20,
     "scheduler_gamma": 0.5,
-    "n_epochs": 200,
+    "n_epochs": 6,
     
-    "loss_method": "-",
-    "epoch_start_secloss":250,
-    "normalize_loss": 1,
-    "use_lin_loss": 0,
-    "start_lin_loss": 0,
+    "loss_method": "mse",
+    "sec_loss_method": "-",
+    "epoch_start_secloss":20,
+
     
     "init": "xavier_normal"
     
