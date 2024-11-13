@@ -1,5 +1,6 @@
 # DeepSpectralRetrieval
 This repo contains the codes for the deep learning-based retrieval of snowfall microphysics from dual-frequency spectral radar measurements.
+The retrieval is described in the corresponding publication: Billault-Roux et al., 2023, Atmospheric Measurement Techniques, https://doi.org/10.5194/amt-16-911-2023.
 
 Questions should be directed at anne-claire.billault-roux@epfl.ch
 
